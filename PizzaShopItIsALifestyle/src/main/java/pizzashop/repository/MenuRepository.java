@@ -27,8 +27,6 @@ public class MenuRepository {
                 listMenu.add(menuItem);
             }
             br.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,7 +34,7 @@ public class MenuRepository {
 
     private MenuDataModel getMenuItem(String line){
         MenuDataModel item=null;
-        if (line==null|| line.equals("")) return null;
+        if (line.equals("")) return null;
         StringTokenizer st=new StringTokenizer(line, ",");
         String name= st.nextToken();
         double price = Double.parseDouble(st.nextToken());
