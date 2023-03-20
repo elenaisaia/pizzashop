@@ -17,7 +17,7 @@ public class MenuRepository {
     private void readMenu(){
         //ClassLoader classLoader = MenuRepository.class.getClassLoader();
         File file = new File(filename);
-        this.listMenu= new ArrayList();
+        this.listMenu= new ArrayList<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(file));
@@ -26,9 +26,16 @@ public class MenuRepository {
                 MenuDataModel menuItem=getMenuItem(line);
                 listMenu.add(menuItem);
             }
-            br.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
