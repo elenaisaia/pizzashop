@@ -1,12 +1,19 @@
 package pizzashop.service;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
 
 import java.io.FileWriter;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,112 +44,165 @@ class PizzaServiceTest {
     @Test
     @DisplayName("TC1_ECP")
     @Timeout(1)
-    void givenTable1AndVal420Point69_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber1AndVal420Point69_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = 1;
+        int tableNumber = 1;
         double amount = 420.69;
 
         //when
         try {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
 
         //then
-        assert(paymentRepository.getAll().contains(new Payment(table, type, amount)));
+        assert(paymentRepository.getAll().contains(new Payment(tableNumber, type, amount)));
     }
 
     @Test
     @DisplayName("TC2_ECP")
-    void givenTable3AndValMinus455_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber3AndValMinus455_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = 3;
+        int tableNumber = 3;
         double amount = -455;
 
         //when + then
         assertThrows(Exception.class, () -> {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         });
     }
 
     @Test
     @DisplayName("TC3_ECP")
-    void givenTableMinus5AndVal800Point85_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumberMinus5AndVal800Point85_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = -5;
+        int tableNumber = -5;
         double amount = 800.55;
 
         //when + then
         assertThrows(Exception.class, () -> {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         });
     }
 
     @Test
     @DisplayName("TC1_BVA")
-    void givenTable0AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber0AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = 0;
+        int tableNumber = 0;
         double amount = 0.5;
 
         //when + then
         assertThrows(Exception.class, () -> {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         });
     }
 
     @Test
     @DisplayName("TC2_BVA")
     @Timeout(1)
-    void givenTable8AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber8AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = 8;
+        int tableNumber = 8;
         double amount = 0.5;
 
         //when
         try {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
 
         //then
-        assert(paymentRepository.getAll().contains(new Payment(table, type, amount)));
+        assert(paymentRepository.getAll().contains(new Payment(tableNumber, type, amount)));
     }
 
     @Test
     @DisplayName("TC3_BVA")
-    void givenTable1AndVal0_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber1AndVal0_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = 1;
+        int tableNumber = 1;
         double amount = 0;
 
         //when + then
         assertThrows(Exception.class, () -> {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         });
     }
 
     @Test
     @DisplayName("TC4_BVA")
     @Timeout(1)
-    void givenTable1AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber1AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
         //given
-        int table = 1;
+        int tableNumber = 1;
         double amount = 0.5;
 
         //when
         try {
-            pizzaService.addPayment(table, type, amount);
+            pizzaService.addPayment(tableNumber, type, amount);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
 
         //then
-        assert(paymentRepository.getAll().contains(new Payment(table, type, amount)));
+        assert(paymentRepository.getAll().contains(new Payment(tableNumber, type, amount)));
+    }
+
+    @ParameterizedTest
+    @MethodSource("getValidPayments")
+    void givenValidProduct_whenAddProduct_thenProductIsSaved(int tableNumber, PaymentType type, double amount) {
+        // when
+        try {
+            pizzaService.addPayment(tableNumber, type, amount);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+        // then
+        assert(paymentRepository.getAll().contains(new Payment(tableNumber, type, amount)));
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(PaymentArgumentsProvider.class)
+    void givenValidProductByProvider_whenAddProduct_thenProductIsSaved(int tableNumber, PaymentType type, double amount) {
+        // when
+        try {
+            pizzaService.addPayment(tableNumber, type, amount);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+        // then
+        assert(paymentRepository.getAll().contains(new Payment(tableNumber, type, amount)));
+
+    }
+
+    static class PaymentArgumentsProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
+            // given
+            return Stream.of(
+                    Arguments.arguments(tableNumber, type, amount),
+                    Arguments.arguments(tableNumber, type, amount),
+                    Arguments.arguments(tableNumber, type, amount)
+            );
+        }
+    }
+
+    static Stream<Arguments> getValidPayments() {
+        // given
+        return Stream.of(
+                Arguments.arguments(tableNumber, type, amount),
+                Arguments.arguments(tableNumber, type, amount),
+                Arguments.arguments(tableNumber, type, amount)
+        );
     }
 }
