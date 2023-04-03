@@ -44,7 +44,7 @@ class PizzaServiceTest {
     @Test
     @DisplayName("TC1_ECP")
     @Timeout(1)
-    void givenTableNumber1AndVal420Point69_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber1AndVal420Point69_whenAddPayment_thenPaymentIsAdded() {
         //given
         int tableNumber = 1;
         double amount = 420.69;
@@ -102,7 +102,7 @@ class PizzaServiceTest {
 
     @Test
     @DisplayName("TC2_BVA")
-    void givenTableNumber8AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber8AndVal0Point5_whenAddPayment_thenPaymentIsAdded() {
         //given
         int tableNumber = 8;
         double amount = 0.5;
@@ -134,7 +134,7 @@ class PizzaServiceTest {
 
     @Test
     @DisplayName("TC4_BVA")
-    void givenTableNumber1AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
+    void givenTableNumber1AndVal0Point5_whenAddPayment_thenPaymentIsAdded() {
         //given
         int tableNumber = 1;
         double amount = 0.5;
