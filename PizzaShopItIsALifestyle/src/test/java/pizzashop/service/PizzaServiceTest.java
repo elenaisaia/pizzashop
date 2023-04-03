@@ -152,6 +152,7 @@ class PizzaServiceTest {
     }
 
     @ParameterizedTest
+    @DisplayName("Parametrized with static method")
     @MethodSource("getValidPayments")
     void givenValidProduct_whenAddProduct_thenProductIsSaved(int tableNumber, PaymentType type, double amount) {
         // when
@@ -167,6 +168,7 @@ class PizzaServiceTest {
     }
 
     @ParameterizedTest
+    @DisplayName("Parametrized with static class")
     @ArgumentsSource(PaymentArgumentsProvider.class)
     void givenValidProductByProvider_whenAddProduct_thenProductIsSaved(int tableNumber, PaymentType type, double amount) {
         // when
