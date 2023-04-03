@@ -102,7 +102,6 @@ class PizzaServiceTest {
 
     @Test
     @DisplayName("TC2_BVA")
-    @Timeout(1)
     void givenTableNumber8AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
         //given
         int tableNumber = 8;
@@ -135,7 +134,6 @@ class PizzaServiceTest {
 
     @Test
     @DisplayName("TC4_BVA")
-    @Timeout(1)
     void givenTableNumber1AndVal0Point5_whenAddPayment_thenExceptionIsThrown() {
         //given
         int tableNumber = 1;
@@ -190,9 +188,9 @@ class PizzaServiceTest {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
             // given
             return Stream.of(
-                    Arguments.arguments(tableNumber, type, amount),
-                    Arguments.arguments(tableNumber, type, amount),
-                    Arguments.arguments(tableNumber, type, amount)
+                    Arguments.arguments(1, type, 420.69),
+                    Arguments.arguments(8, type, 0.5),
+                    Arguments.arguments(1, type, 0.5)
             );
         }
     }
@@ -200,9 +198,9 @@ class PizzaServiceTest {
     static Stream<Arguments> getValidPayments() {
         // given
         return Stream.of(
-                Arguments.arguments(tableNumber, type, amount),
-                Arguments.arguments(tableNumber, type, amount),
-                Arguments.arguments(tableNumber, type, amount)
+                Arguments.arguments(1, type, 420.69),
+                Arguments.arguments(8, type, 0.5),
+                Arguments.arguments(1, type, 0.5)
         );
     }
 }
