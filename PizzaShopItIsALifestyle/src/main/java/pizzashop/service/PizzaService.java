@@ -1,5 +1,6 @@
 package pizzashop.service;
 
+import pizzashop.PizzaException;
 import pizzashop.model.MenuDataModel;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
@@ -22,9 +23,9 @@ public class PizzaService {
 
     public List<Payment> getPayments(){return payRepo.getAll(); }
 
-    public void addPayment(int table, PaymentType type, double amount) throws Exception {
+    public void addPayment(int table, PaymentType type, double amount) throws PizzaException {
         if (table < 1 || table > 8 || amount <= 0)
-            throw new Exception ("Invalid data!");
+            throw new PizzaException("Invalid data!");
         Payment payment= new Payment(table, type, amount);
         payRepo.add(payment);
     }
