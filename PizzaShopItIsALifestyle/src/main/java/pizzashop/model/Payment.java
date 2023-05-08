@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public class Payment {
 
-    private int tableNumber;
-    private PaymentType type;
-    private double amount;
+    public int tableNumber;
+    public PaymentType type;
+    public double amount;
     public Payment(int tableNumber, PaymentType type, double amount) {
         this.tableNumber = tableNumber;
         this.type = type;
@@ -55,4 +55,10 @@ public class Payment {
     public int hashCode() {
         return Objects.hash(tableNumber, type, amount);
     }
+
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(tableNumber, type, amount);
+//    }
 }
